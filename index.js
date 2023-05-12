@@ -2,14 +2,23 @@ const { Telegraf } = require('telegraf');
 const { message } = require('telegraf/filters');
 
 require('dotenv').config();
-
+const text_answer = require ('./const');
 const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.start((ctx) => ctx.reply('Welcome'));
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply('Hey there'));
+bot.start(isItMe,(ctx) => ctx.reply(text_answer.lets_start));
+bot.help(isItMe,(ctx) => ctx.reply(':)'));
+
+// starting
 bot.launch();
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
+
+
+function isItMe (ctx, next) {
+    if (ctx.message.from.id != process.env.MY_ID) {
+        ctx.reply_to_message(text_answer.access_denied);
+    } else {
+        next();
+    }
+}
