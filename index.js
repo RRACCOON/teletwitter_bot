@@ -2,8 +2,8 @@ const {Telegraf, Markup, Extra} = require('telegraf');
 const {message} = require('telegraf/filters');
 require('dotenv').config();
 const twitter = require('./twitterСonnection');
-const textConsts = require('./const');
-const countries = require('./countries');
+const textConsts = require('./utils/const');
+const countries = require('./utils/countries');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start(isItMe, (ctx) => ctx.reply(textConsts.lets_start));
